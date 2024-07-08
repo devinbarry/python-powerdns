@@ -36,7 +36,7 @@ homepage = "https://github.com/outini/python-powerdns"
 repository = "https://github.com/outini/python-powerdns"
 
 [project.scripts]
-pdns-create-zone = "bin/pdns-create-zone"
+pdns-create-zone = "bin.pdns_create_zone"
 
 [tool.hatch.version]
 path = "powerdns/__init__.py"
