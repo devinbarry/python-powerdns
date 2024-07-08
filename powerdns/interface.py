@@ -1,22 +1,3 @@
-# -*- coding: utf-8 -*-
-#
-#  PowerDNS web api python client and interface (python-powerdns)
-#
-#  Copyright (C) 2018 Denis Pompilio (jawa) <denis.pompilio@gmail.com>
-#
-#  This file is part of python-powerdns
-#
-#  This program is free software; you can redistribute it and/or
-#  modify it under the terms of the MIT License.
-#
-#  This program is distributed in the hope that it will be useful,
-#  but WITHOUT ANY WARRANTY; without even the implied warranty of
-#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#  MIT License for more details.
-#
-#  You should have received a copy of the MIT License along with this
-#  program; if not, see <https://opensource.org/licenses/MIT>.
-
 """
 powerdns.interface - PowerDNS API interface
 """
@@ -31,9 +12,6 @@ from .exceptions import PDNSCanonicalError
 
 LOG = logging.getLogger(__name__)
 
-
-# pylint: disable=useless-object-inheritance
-# pylint: disable=too-few-public-methods
 class PDNSEndpointBase:
     """Powerdns API Endpoint Base
 
