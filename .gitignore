@@ -3,3 +3,6 @@ dist/*
 python_powerdns.egg-info/*
 *.pyc
 private_bin
+
+#PyCharm files
+.idea/
