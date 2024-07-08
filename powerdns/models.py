@@ -1,6 +1,7 @@
 from pydantic import BaseModel, Field, validator
-from typing import List, Optional
+from typing import Optional
 import time
+
 
 class Comment(BaseModel):
     """
@@ -18,6 +19,7 @@ class Comment(BaseModel):
     def __repr__(self):
         return f"Comment({repr(self.content)}, {repr(self.account)}, {repr(self.modified_at)})"
 
+
 class Record(BaseModel):
     """
     The RREntry object represents a single record.
@@ -25,13 +27,14 @@ class Record(BaseModel):
     content: str = Field(..., description='The content of this record')
     disabled: bool = Field(default=False, description='Whether or not this record is disabled')
 
+
 class RRSet(BaseModel):
     name: str = Field(..., description='Record name')
     rtype: str = Field(..., alias='type', description='Record type')
     ttl: int = Field(default=3600, description='Record time to live')
     changetype: str = Field(default='REPLACE', description='API keyword DELETE or REPLACE')
-    records: List[Record] = Field(..., description='All records in this RRSet')
-    comments: Optional[List[Comment]] = Field(default_factory=list, description='List of comments')
+    records: list[Record] = Field(..., description='All records in this RRSet')
+    comments: Optional[list[Comment]] = Field(default_factory=list, description='List of comments')
 
     @validator('records', pre=True, each_item=True)
     def validate_records(cls, v):
