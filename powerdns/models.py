@@ -18,17 +18,12 @@ class Comment(BaseModel):
     def __repr__(self):
         return f"Comment({repr(self.content)}, {repr(self.account)}, {repr(self.modified_at)})"
 
-
 class Record(BaseModel):
     """
     The RREntry object represents a single record.
-
-    content (string) – The content of this record
-    disabled (boolean) – Whether or not this record is disabled. When unset, the record is not disabled
     """
-    content: str
-    disabled: bool = False
-
+    content: str = Field(..., description='The content of this record')
+    disabled: bool = Field(default=False, description='Whether or not this record is disabled')
 
 class RRSet(BaseModel):
     name: str = Field(..., description='Record name')
@@ -41,50 +36,35 @@ class RRSet(BaseModel):
     @validator('records', pre=True, each_item=True)
     def validate_records(cls, v):
         if isinstance(v, dict):
-            if set(v.keys()) > {"content", "disabled"}:
-                raise ValueError(f"Dictionary {v} has more keys than 'content' and 'disabled'")
-            if "content" not in v.keys():
-                raise ValueError(f"Dictionary {v} does not have the 'content' key.")
-            if "disabled" not in v.keys():
-                v["disabled"] = False
             return Record(**v)
         elif isinstance(v, (list, tuple)):
-            return Record(content=v[0], disabled=v[1])
+            return Record(content=v[0], disabled=v[1] if len(v) > 1 else False)
         elif isinstance(v, str):
             return Record(content=v)
         else:
             raise ValueError(f"Invalid record format: {v}")
 
     def __repr__(self):
-        return "RRSet(%s, %s, %s, %s, %s, %s)" % (
-            repr(self.name),
-            repr(self.rtype),
-            repr(self.records),
-            repr(self.ttl),
-            repr(self.changetype),
-            repr(self.comments),
-        )
+        return f"RRSet(name={repr(self.name)}, type={repr(self.rtype)}, records={repr(self.records)}, ttl={self.ttl}, changetype={repr(self.changetype)}, comments={repr(self.comments)})"
 
     def __str__(self):
-        return "(ttl=%d) %s  %s  %s %s)" % (
-            self.ttl,
-            self.name,
-            self.rtype,
-            self.records,
-            self.comments,
-        )
+        return f"(ttl={self.ttl}) {self.name}  {self.rtype}  {self.records} {self.comments}"
 
     def ensure_canonical(self, zone: str):
-        """Ensure every record names are canonical
+        """
+        Ensure all record names are in canonical form.
 
-        :param str zone: Zone name to build canonical names
+        This method appends the zone to the record name if it's not already present.
+        For CNAME records, it also ensures the record content is in canonical form.
 
-        In case of CNAME records, records content is also checked.
+        Args:
+            zone (str): The zone name to be appended. Must end with a dot.
 
-        .. warning::
+        Raises:
+            ValueError: If the provided zone is not in canonical form (doesn't end with a dot).
 
-            This method updates :class:`RRSet` data to ensure the use of
-            canonical names. It is actually not possible to revert values.
+        Note:
+            This method modifies the RRSet in-place. The changes cannot be reverted.
         """
         if not zone.endswith('.'):
             raise ValueError(f"Zone {zone} is not canonical.")
