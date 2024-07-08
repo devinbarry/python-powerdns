@@ -1,5 +1,5 @@
 from unittest import TestCase
-from unittest.mock import patch, Mock, MagicMock
+from unittest.mock import Mock, MagicMock
 from datetime import date
 
 from powerdns.client import PDNSApiClient
@@ -11,7 +11,7 @@ from powerdns.exceptions import PDNSError, PDNSCanonicalError
 class TestEndpoint(TestCase):
 
     def setUp(self):
-        self.mock_client = Mock(spec=PDNSApiClient)
+        self.mock_client = MagicMock(spec=PDNSApiClient)
         self.api = PDNSEndpoint(self.mock_client)
 
     def test_endpoint_attributes(self):
@@ -38,7 +38,7 @@ class TestEndpoint(TestCase):
 class TestServers(TestCase):
 
     def setUp(self):
-        self.mock_client = Mock(spec=PDNSApiClient)
+        self.mock_client = MagicMock(spec=PDNSApiClient)
         self.mock_server_data = {
             'id': 'localhost',
             'url': '/api/v1/servers/localhost',
