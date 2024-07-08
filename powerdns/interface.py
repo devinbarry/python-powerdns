@@ -34,7 +34,7 @@ LOG = logging.getLogger(__name__)
 
 # pylint: disable=useless-object-inheritance
 # pylint: disable=too-few-public-methods
-class PDNSEndpointBase(object):
+class PDNSEndpointBase:
     """Powerdns API Endpoint Base
 
     :param PDNSApiClient api_client: Cachet API client instance
@@ -448,8 +448,6 @@ class PDNSZone(PDNSEndpointBase):
         return self._put(self.url + '/notify')
 
 
-# pylint: disable=line-too-long
-# pylint: disable=too-many-arguments
 class RRSet(dict):
     """Resource record data for PowerDNS API
 

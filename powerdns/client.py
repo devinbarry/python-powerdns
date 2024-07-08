@@ -32,7 +32,7 @@ LOG = logging.getLogger(__name__)
 
 
 # pylint: disable=too-many-instance-attributes
-class PDNSApiClient(object):
+class PDNSApiClient:
     """Powerdns API client
 
     It implements common HTTP methods GET, POST, PUT, PATCH and DELETE
