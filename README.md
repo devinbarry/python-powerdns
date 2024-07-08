@@ -14,12 +14,6 @@ for the PowerDNS web API.
 ## Installation
 
 ```bash
-python setup.py install
-```
-
-or
-
-```bash
 pip install python-powerdns
 ```
 

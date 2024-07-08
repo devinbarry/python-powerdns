@@ -1,0 +1,46 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "python-powerdns"
+version = "2.1.0"
+description = "PowerDNS web api python client and interface"
+readme = "README.md"
+readme-content-type = "text/markdown"
+license = {text = "MIT"}
+authors = [
+    { name = "Denis Pompilio (jawa)", email = "denis.pompilio@gmail.com" }
+]
+maintainers = [
+    { name = "Denis Pompilio (jawa)", email = "denis.pompilio@gmail.com" }
+]
+keywords = ["dns", "powerdns", "api"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Operating System :: POSIX :: BSD",
+    "Operating System :: POSIX :: Linux",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Environment :: Web Environment",
+    "Topic :: Utilities"
+]
+
+[project.urls]
+homepage = "https://github.com/outini/python-powerdns"
+
+[project.scripts]
+pdns-create-zone = "bin/pdns-create-zone"
+
+[project.dependencies]
+dependencies = [
+    "requests"
+]
+
+[tool.setuptools.packages.find]
+where = ["powerdns"]
+
+[tool.setuptools.data-files]
+"share/doc/python-powerdns" = ["README.md", "LICENSE", "CHANGES"]
