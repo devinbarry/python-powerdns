@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Optional
 import time
 
@@ -36,7 +36,8 @@ class RRSet(BaseModel):
     records: list[Record] = Field(..., description='All records in this RRSet')
     comments: Optional[list[Comment]] = Field(default_factory=list, description='List of comments')
 
-    @validator('records', pre=True, each_item=True)
+    @field_validator('records', mode='before')
+    @classmethod
     def validate_records(cls, v):
         if isinstance(v, dict):
             return Record(**v)
@@ -77,3 +78,4 @@ class RRSet(BaseModel):
             for record in self.records:
                 if not record.content.endswith('.'):
                     record.content += f".{zone}"
+                    
