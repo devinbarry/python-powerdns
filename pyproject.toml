@@ -1,14 +1,15 @@
 [build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [project]
 name = "python-powerdns"
-version = "2.1.0"
+requires-python = ">=3.11"
+dynamic = ["version"]
 description = "PowerDNS web api python client and interface"
 readme = "README.md"
 readme-content-type = "text/markdown"
-license = {text = "MIT"}
+license = "MIT"
 authors = [
     { name = "Denis Pompilio (jawa)", email = "denis.pompilio@gmail.com" }
 ]
@@ -21,7 +22,6 @@ classifiers = [
     "Operating System :: POSIX :: BSD",
     "Operating System :: POSIX :: Linux",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Environment :: Web Environment",
@@ -30,6 +30,7 @@ classifiers = [
 
 [project.urls]
 homepage = "https://github.com/outini/python-powerdns"
+repository = "https://github.com/outini/python-powerdns"
 
 [project.scripts]
 pdns-create-zone = "bin/pdns-create-zone"
@@ -39,8 +40,11 @@ dependencies = [
     "requests"
 ]
 
-[tool.setuptools.packages.find]
-where = ["powerdns"]
+[tool.hatch.version]
+path = "powerdns/__init__.py"
 
-[tool.setuptools.data-files]
-"share/doc/python-powerdns" = ["README.md", "LICENSE", "CHANGES"]
+[tool.hatch.build.targets.sdist]
+packages = ["powerdns"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["powerdns"]
