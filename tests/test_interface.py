@@ -25,7 +25,8 @@ class TestEndpoint(TestCase):
         self.assertEqual(str(self.api), str(self.api.api_client))
 
     def test_endpoint_servers_list(self):
-        mock_server_data = {'id': 'localhost', 'url': '/api/v1/servers/localhost'}
+        mock_server_data = {'id': 'localhost', 'url': '/api/v1/servers/localhost', "daemon_type": "recursor",
+                            "version": "VERSION",}
         self.mock_client.get.return_value = [mock_server_data]
 
         servers = self.api.servers

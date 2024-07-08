@@ -42,7 +42,23 @@ class PDNSEndpoint(PDNSEndpointBase):
         return self._servers
 
 class PDNSServer(PDNSEndpointBase):
-    """Powerdns API Server Endpoint"""
+    """Powerdns API Server Endpoint
+
+    :param PDNSApiClient api_client: Cachet API client instance
+    :param str api_data: PowerDNS API server data
+
+    api_data structure is received from API, here an example structure::
+
+        {
+          "type": "Server",
+          "id": "localhost",
+          "url": "/api/v1/servers/localhost",
+          "daemon_type": "recursor",
+          "version": "VERSION",
+          "config_url": "/api/v1/servers/localhost/config{/config_setting}",
+          "zones_url": "/api/v1/servers/localhost/zones{/zone}",
+        }
+    """
     def __init__(self, api_client, api_data):
         super().__init__(api_client)
         self._api_data = api_data
