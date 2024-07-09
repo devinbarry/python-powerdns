@@ -1,9 +1,12 @@
-from .exceptions import PDNSCanonicalError
 import logging
 import json
 import os
 
+from .exceptions import PDNSCanonicalError
+from .models import RRSet
+
 LOG = logging.getLogger(__name__)
+
 
 class PDNSEndpointBase:
     """Base class for PowerDNS API endpoints"""
@@ -14,6 +17,7 @@ class PDNSEndpointBase:
         self._patch = api_client.patch
         self._put = api_client.put
         self._delete = api_client.delete
+
 
 class PDNSEndpoint(PDNSEndpointBase):
     """PowerDNS API Endpoint"""
@@ -40,6 +44,7 @@ class PDNSEndpoint(PDNSEndpointBase):
                              for data in self._get('/servers')]
         LOG.info(f"{len(self._servers)} server(s) listed")
         return self._servers
+
 
 class PDNSServer(PDNSEndpointBase):
     """Powerdns API Server Endpoint
@@ -130,8 +135,7 @@ class PDNSServer(PDNSEndpointBase):
         return max((zone for zone in self.zones if r_name.endswith(zone.name)),
                    key=lambda z: len(z.name), default=None)
 
-    def create_zone(self, name, kind, nameservers, masters=None, servers=None,
-                    rrsets=None, update=False):
+    def create_zone(self, name, kind, nameservers, masters=None, servers=None, rrsets=None, update=False):
         """Create or update a (new) zone
 
         :param str name: Name of zone
@@ -193,6 +197,7 @@ class PDNSServer(PDNSEndpointBase):
             return PDNSZone(self.api_client, self, zone_data)
         LOG.info(f"{zone_name} zone restoration failed")
 
+
 class PDNSZone(PDNSEndpointBase):
     """Powerdns API Zone Endpoint"""
     def __init__(self, api_client, server, api_data):
@@ -230,31 +235,37 @@ class PDNSZone(PDNSEndpointBase):
         LOG.info(f"Getting zone record: {name}")
         return [record for record in self.details['rrsets'] if name == record['name']]
 
-    def create_records(self, rrsets):
+    def create_records(self, rrsets: list[RRSet]):
         """Create resource record sets
 
         :param list rrsets: Resource record sets
         :return: Query response
         """
         LOG.info(f"Creating {len(rrsets)} record(s) in {self.name}")
+
+        serialized_data = []
         for rrset in rrsets:
             rrset.ensure_canonical(self.name)
             rrset['changetype'] = 'REPLACE'
+            serialized_data.append(rrset.model_dump(by_alias=True))
         self._details = None
-        return self._patch(self.url, data={'rrsets': rrsets})
+        return self._patch(self.url, data={'rrsets': serialized_data})
 
-    def delete_records(self, rrsets):
+    def delete_records(self, rrsets: list[RRSet]):
         """Delete resource record sets
 
         :param list rrsets: Resource record sets
         :return: Query response
         """
         LOG.info(f"Deleting {len(rrsets)} records from {self.name}")
+
+        serialized_data = []
         for rrset in rrsets:
             rrset.ensure_canonical(self.name)
             rrset['changetype'] = 'DELETE'
+            serialized_data.append(rrset.model_dump(by_alias=True))
         self._details = None
-        return self._patch(self.url, data={'rrsets': rrsets})
+        return self._patch(self.url, data={'rrsets': serialized_data})
 
     def backup(self, directory, filename=None, pretty_json=False):
         """Backup zone data to json file
