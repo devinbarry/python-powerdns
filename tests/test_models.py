@@ -1,3 +1,4 @@
+import json
 import unittest
 from powerdns.models import Comment, Record, RRSet
 
@@ -74,3 +75,79 @@ class TestRRSet(unittest.TestCase):
     def test_ensure_canonical_invalid_zone(self):
         with self.assertRaises(ValueError):
             self.rrset.ensure_canonical("example.org")
+
+
+class TestJsonSerialization(unittest.TestCase):
+    def test_comment_serialization(self):
+        comment = Comment(content="Test comment", account="testuser", modified_at=1625097600)
+        expected = {
+            "content": "Test comment",
+            "account": "testuser",
+            "modified_at": 1625097600
+        }
+        self.assertEqual(json.loads(comment.model_dump_json()), expected)
+
+    def test_record_serialization(self):
+        record = Record(content="192.0.2.1", disabled=True)
+        expected = {
+            "content": "192.0.2.1",
+            "disabled": True
+        }
+        self.assertEqual(json.loads(record.model_dump_json()), expected)
+
+    def test_rrset_serialization(self):
+        rrset = RRSet(
+            name="example.com",
+            rtype="A",
+            ttl=300,
+            changetype="REPLACE",
+            records=[
+                Record(content="192.0.2.1"),
+                Record(content="192.0.2.2", disabled=True)
+            ],
+            comments=[
+                Comment(content="First comment", account="user1", modified_at=1625097600),
+                Comment(content="Second comment", account="user2", modified_at=1625184000)
+            ]
+        )
+        expected = {
+            "name": "example.com",
+            "type": "A",
+            "ttl": 300,
+            "changetype": "REPLACE",
+            "records": [
+                {"content": "192.0.2.1", "disabled": False},
+                {"content": "192.0.2.2", "disabled": True}
+            ],
+            "comments": [
+                {"content": "First comment", "account": "user1", "modified_at": 1625097600},
+                {"content": "Second comment", "account": "user2", "modified_at": 1625184000}
+            ]
+        }
+        self.assertEqual(json.loads(rrset.model_dump_json(by_alias=True)), expected)
+
+    def test_rrset_serialization_without_comments(self):
+        rrset = RRSet(
+            name="example.com",
+            rtype="A",
+            records=["192.0.2.1", "192.0.2.2"]
+        )
+        serialized = json.loads(rrset.model_dump_json(by_alias=True))
+        self.assertIn("name", serialized)
+        self.assertIn("type", serialized)
+        self.assertIn("records", serialized)
+        self.assertIn("ttl", serialized)
+        self.assertIn("changetype", serialized)
+        self.assertIn("comments", serialized)
+        self.assertEqual(serialized["comments"], [])
+
+    def test_rrset_serialization_alias_fields(self):
+        rrset = RRSet(
+            name="example.com",
+            rtype="A",
+            records=["192.0.2.1"]
+        )
+        serialized = json.loads(rrset.model_dump_json(by_alias=True))
+        self.assertIn("type", serialized)
+        self.assertNotIn("rtype", serialized)
+        self.assertEqual(serialized["type"], "A")

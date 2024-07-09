@@ -40,7 +40,17 @@ class RRSet(BaseModel):
     @classmethod
     def validate_records(cls, v):
         if isinstance(v, list):
-            return [Record(**item) if isinstance(item, dict) else Record(content=item) for item in v]
+            records = []
+            for item in v:
+                if isinstance(item, str):
+                    records.append(Record(content=item))
+                elif isinstance(item, dict):
+                    records.append(Record(**item))
+                elif isinstance(item, Record):
+                    records.append(item)
+            return records
+        elif isinstance(v, str):
+            return [Record(content=v)]
         raise ValueError(f"Invalid records format: {v}")
 
     def __repr__(self):
