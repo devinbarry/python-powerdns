@@ -27,7 +27,7 @@ from .client import PDNSApiClient
 from .interface import PDNSEndpoint, RRSet, Comment
 
 
-__version__ = "2.2.3"
+__version__ = "2.2.4"
 
 LOG_LEVELS = [
     logging.ERROR,
