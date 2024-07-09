@@ -104,7 +104,7 @@ class TestServers(TestCase):
 
 
 class TestPDNSZone(TestCase):
-    
+
     def setUp(self):
         self.mock_client = MagicMock(spec=PDNSApiClient)
         self.mock_server = MagicMock(spec=PDNSServer)

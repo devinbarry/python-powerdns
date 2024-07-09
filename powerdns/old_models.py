@@ -35,9 +35,9 @@ class RRSet(dict):
             disabled = False
             if isinstance(record, dict):
                 if set(record.keys()) > {"content", "disabled"}:
-                    raise ValueError(f"Dictionary { records } has more keys than 'content' and 'disabled'")
+                    raise ValueError(f"Dictionary {records} has more keys than 'content' and 'disabled'")
                 if "content" not in record.keys():
-                    raise ValueError(f"Dictionary { records } does not have the 'content' key.")
+                    raise ValueError(f"Dictionary {records} does not have the 'content' key.")
                 if "disabled" not in record.keys():
                     record["disabled"] = False
 
