@@ -30,7 +30,7 @@ class TestRRSet(unittest.TestCase):
         self.rrset = RRSet(
             name="example.com",
             rtype="A",
-            records=[Record(content="192.0.2.1"), Record(content="192.0.2.2")]
+            records=["192.0.2.1", "192.0.2.2"]
         )
 
     def test_rrset_creation(self):
@@ -41,15 +41,14 @@ class TestRRSet(unittest.TestCase):
         self.assertEqual(self.rrset.changetype, "REPLACE")
 
     def test_rrset_str(self):
-        expected = ("(ttl=3600) example.com  A  [Record(content='192.0.2.1', disabled=False), "
-                    "Record(content='192.0.2.2', disabled=False)] []")
+        expected = "(ttl=3600) example.com  A  [Record(content='192.0.2.1', disabled=False), Record(content='192.0.2.2', disabled=False)] []"
         self.assertEqual(str(self.rrset), expected)
 
     def test_validate_records(self):
         rrset = RRSet(
             name="example.com",
             rtype="A",
-            records=["192.0.2.1", {"content": "192.0.2.2", "disabled": True}, ("192.0.2.3",)]
+            records=["192.0.2.1", {"content": "192.0.2.2", "disabled": True}, "192.0.2.3"]
         )
         self.assertEqual(len(rrset.records), 3)
         self.assertIsInstance(rrset.records[0], Record)
@@ -66,7 +65,7 @@ class TestRRSet(unittest.TestCase):
         cname_rrset = RRSet(
             name="www",
             rtype="CNAME",
-            records=[Record(content="example.com")]
+            records=["example.com"]
         )
         cname_rrset.ensure_canonical("example.org.")
         self.assertEqual(cname_rrset.name, "www.example.org.")

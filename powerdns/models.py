@@ -30,7 +30,7 @@ class Record(BaseModel):
 
 class RRSet(BaseModel):
     name: str = Field(..., description='Record name')
-    rtype: str = Field(..., alias='type', description='Record type')
+    rtype: str = Field(..., serialization_alias='type', description='Record type')
     ttl: int = Field(default=3600, description='Record time to live')
     changetype: str = Field(default='REPLACE', description='API keyword DELETE or REPLACE')
     records: list[Record] = Field(..., description='All records in this RRSet')
@@ -39,14 +39,9 @@ class RRSet(BaseModel):
     @field_validator('records', mode='before')
     @classmethod
     def validate_records(cls, v):
-        if isinstance(v, dict):
-            return Record(**v)
-        elif isinstance(v, (list, tuple)):
-            return Record(content=v[0], disabled=v[1] if len(v) > 1 else False)
-        elif isinstance(v, str):
-            return Record(content=v)
-        else:
-            raise ValueError(f"Invalid record format: {v}")
+        if isinstance(v, list):
+            return [Record(**item) if isinstance(item, dict) else Record(content=item) for item in v]
+        raise ValueError(f"Invalid records format: {v}")
 
     def __repr__(self):
         return f"RRSet(name={repr(self.name)}, type={repr(self.rtype)}, records={repr(self.records)}, ttl={self.ttl}, changetype={repr(self.changetype)}, comments={repr(self.comments)})"
@@ -78,4 +73,4 @@ class RRSet(BaseModel):
             for record in self.records:
                 if not record.content.endswith('.'):
                     record.content += f".{zone}"
-                    
+
