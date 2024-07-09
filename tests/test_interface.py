@@ -1,11 +1,10 @@
 from unittest import TestCase
-from unittest.mock import Mock, MagicMock
-from datetime import date
+from unittest.mock import MagicMock
 
 from powerdns.client import PDNSApiClient
 from powerdns.interface import PDNSEndpoint, PDNSServer, PDNSZone
-from powerdns.interface import RRSet, Comment
-from powerdns.exceptions import PDNSError, PDNSCanonicalError
+from powerdns.interface import RRSet
+from powerdns.exceptions import PDNSCanonicalError
 
 
 class TestEndpoint(TestCase):

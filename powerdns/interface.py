@@ -246,7 +246,7 @@ class PDNSZone(PDNSEndpointBase):
         serialized_data = []
         for rrset in rrsets:
             rrset.ensure_canonical(self.name)
-            rrset['changetype'] = 'REPLACE'
+            assert rrset.changetype == 'REPLACE'
             serialized_data.append(rrset.model_dump(by_alias=True))
         self._details = None
         return self._patch(self.url, data={'rrsets': serialized_data})
@@ -262,7 +262,7 @@ class PDNSZone(PDNSEndpointBase):
         serialized_data = []
         for rrset in rrsets:
             rrset.ensure_canonical(self.name)
-            rrset['changetype'] = 'DELETE'
+            assert rrset.changetype == 'DELETE'
             serialized_data.append(rrset.model_dump(by_alias=True))
         self._details = None
         return self._patch(self.url, data={'rrsets': serialized_data})
