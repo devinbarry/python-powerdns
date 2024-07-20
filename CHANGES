@@ -1,6 +1,13 @@
 python-powerdns - PowerDNS web api python client and interface
 ==============================================================
 
+=== v2.3.0 20/07/2024 ===
+   * Rewrite some parts of the code to clean up project.
+   * Move to using Pydantic for models rather than custom classes.
+   * Write more tests and ensure all tests pass.
+   * Rewrite all tests that need a live service and mock these instead.
+   * Convert from setup.py to pyproject.toml.
+
 Contact: Denis 'jawa' Pompilio <denis.pompilio@gmail.com>
 Sources: https://github.com/outini/python-powerdns
 

@@ -235,6 +235,7 @@ class PDNSZone(PDNSEndpointBase):
         logger.info(f"Getting zone record: {name}")
         return [record for record in self.details['rrsets'] if name == record['name']]
 
+    # TODO This client needs to be rewritten so that we can check that we get a 204 response here
     def create_records(self, rrsets: list[RRSet]):
         """Create resource record sets
 

@@ -2,9 +2,17 @@
 
 # python-powerdns -- PowerDNS web api python client and interface
 
-**Contact:** Denis 'jawa' Pompilio <denis.pompilio@gmail.com>
+This is a slight rewrite of [python-powerdns](https://github.com/outini/python-powerdns) by Denis Pompilio.
 
-**Sources:** <https://github.com/outini/python-powerdns>
+I have focused on the Python client that interfaces with the PowerDNS API.
+
+Changes from last version released by Denis:
+
+* Rewrite some parts of the code to clean up project.
+* Move to using Pydantic for models rather than custom classes.
+* Write more tests and ensure all tests pass.
+* Rewrite all tests that need a live service and mock these instead.
+* Convert from setup.py to pyproject.toml.
 
 ## About
 
@@ -140,11 +148,14 @@ zone_file = "backups/pdns-server-01/my.domain.tld.json"
 api.servers[0].restore_zone(zone_file)
 ```
 
-## Tests
+## Unit Tests
+
+All tests are located in the tests subdir.
+Run them from your venv using `python -m unittest discover -s tests`
 
 ### PowerDNS service
 
-A simple [Dockerfile] is provided to spawn a basic powerdns service for tests
+A simple Dockerfile is provided to spawn a basic powerdns service for tests
 purposes. The container is built using:
 
 ```bash
@@ -157,30 +168,11 @@ And started using:
 docker run --rm -it pdns
 ```
 
-### Python Unit-Tests
-
-Python unit-tests are available in the [tests] directory. Based on [unittests],
-those are run using `coverage run -m unittest discover` or integrated in your
-IDE for development purposes. Those tests require a PDNS service to connect to
-(see _PowerDNS service_ section above).
-
-Those tests are very limited at the moment and will be improved in the future.
 
 ## License
 
 MIT LICENSE *(see LICENSE file)*
 
-## Miscellaneous
-
-```
-    ╚⊙ ⊙╝
-  ╚═(███)═╝
- ╚═(███)═╝
-╚═(███)═╝
- ╚═(███)═╝
-  ╚═(███)═╝
-   ╚═(███)═╝
-```
 
 [1]: https://img.shields.io/badge/python-2.7,3.4+-blue.svg
 [1l]: https://github.com/outini/python-powerdns
