@@ -22,7 +22,7 @@ import argparse
 import powerdns
 
 
-LOG = powerdns.basic_logger("powerdns")
+logger = powerdns.basic_logger("powerdns")
 
 
 def ensure_canonical(name):

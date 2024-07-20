@@ -3,7 +3,7 @@ import logging
 import requests
 from .exceptions import PDNSError
 
-LOG = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PDNSApiClient:
@@ -23,7 +23,7 @@ class PDNSApiClient:
         self._timeout = timeout
 
         if not verify:
-            LOG.debug("removing insecure https connection warnings")
+            logger.debug("removing insecure https connection warnings")
             requests.urllib3.disable_warnings(requests.urllib3.exceptions.InsecureRequestWarning)
 
         self.request_headers = {
@@ -54,7 +54,7 @@ class PDNSApiClient:
         if self._api_key:
             self.request_headers['X-API-Key'] = self._api_key
 
-        LOG.debug("request: original path is %s", path)
+        logger.debug("request: original path is %s", path)
         if not path.startswith('http://') and not path.startswith('https://'):
             if path.startswith('/'):
                 path = path.lstrip('/')
@@ -66,9 +66,9 @@ class PDNSApiClient:
             data = {}
         data = json.dumps(data)
 
-        LOG.info("request: %s %s", method, url)
-        LOG.debug("headers: %s", self.request_headers)
-        LOG.debug("data: %s", data)
+        logger.info("request: %s %s", method, url)
+        logger.debug("headers: %s", self.request_headers)
+        logger.debug("data: %s", data)
         response = requests.request(method, url,
                                     data=data,
                                     headers=self.request_headers,
@@ -76,8 +76,8 @@ class PDNSApiClient:
                                     verify=self._verify,
                                     **kwargs)
 
-        LOG.info("request response code: %d", response.status_code)
-        LOG.debug("response: %s", response.text)
+        logger.info("request response code: %d", response.status_code)
+        logger.debug("response: %s", response.text)
 
         if response.status_code in [200, 201]:
             return response.json()
@@ -91,8 +91,8 @@ class PDNSApiClient:
             except Exception:
                 error_message = response.text
 
-        LOG.error("raising error code %d", response.status_code)
-        LOG.debug("error response: %s", error_message)
+        logger.error("raising error code %d", response.status_code)
+        logger.debug("error response: %s", error_message)
         raise PDNSError(url=response.url,
                         status_code=response.status_code,
                         message=error_message)

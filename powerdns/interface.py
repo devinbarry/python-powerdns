@@ -5,7 +5,7 @@ import os
 from .exceptions import PDNSCanonicalError
 from .models import RRSet
 
-LOG = logging.getLogger(__name__)
+logger = logging.getLogger(__name__)
 
 
 class PDNSEndpointBase:
@@ -39,10 +39,10 @@ class PDNSEndpoint(PDNSEndpointBase):
         data is converted to PDNSServer instances.
         """
         if not self._servers:
-            LOG.info("Getting available servers from API")
+            logger.info("Getting available servers from API")
             self._servers = [PDNSServer(self.api_client, data)
                              for data in self._get('/servers')]
-        LOG.info(f"{len(self._servers)} server(s) listed")
+        logger.info(f"{len(self._servers)} server(s) listed")
         return self._servers
 
 
@@ -84,7 +84,7 @@ class PDNSServer(PDNSEndpointBase):
     def config(self):
         """Server configuration from PowerDNS API"""
         if not self._config:
-            LOG.info("Getting server configuration")
+            logger.info("Getting server configuration")
             self._config = self._get(f'{self.url}/config')
         return self._config
 
@@ -96,10 +96,10 @@ class PDNSServer(PDNSEndpointBase):
         reset in case of zone creation, deletion, or restoration.
         """
         if not self._zones:
-            LOG.info("Getting available zones from API")
+            logger.info("Getting available zones from API")
             self._zones = [PDNSZone(self.api_client, self, data)
                            for data in self._get(f'{self.url}/zones')]
-        LOG.info(f"{len(self._zones)} zone(s) listed")
+        logger.info(f"{len(self._zones)} zone(s) listed")
         return self._zones
 
     def search(self, search_term, max_result=100):
@@ -109,9 +109,9 @@ class PDNSServer(PDNSEndpointBase):
         :param int max_result: Maximum number of results to return
         :return: Query results as list
         """
-        LOG.info(f"API search terms: {search_term}")
+        logger.info(f"API search terms: {search_term}")
         results = self._get(f'{self.url}/search-data?q={search_term}&max={max_result}')
-        LOG.info(f"{len(results)} search result(s)")
+        logger.info(f"{len(results)} search result(s)")
         return results
 
     def get_zone(self, name):
@@ -120,7 +120,7 @@ class PDNSServer(PDNSEndpointBase):
         :param str name: Zone name (canonical)
         :return: Zone as PDNSZone instance or None
         """
-        LOG.info(f"Getting zone: {name}")
+        logger.info(f"Getting zone: {name}")
         return next((zone for zone in self.zones if zone.name == name), None)
 
     def suggest_zone(self, r_name):
@@ -129,7 +129,7 @@ class PDNSServer(PDNSEndpointBase):
         :param str r_name: Record canonical name
         :return: Zone as PDNSZone object or None
         """
-        LOG.info(f"Suggesting zone for: {r_name}")
+        logger.info(f"Suggesting zone for: {r_name}")
         if not r_name.endswith('.'):
             raise PDNSCanonicalError(r_name)
         return max((zone for zone in self.zones if r_name.endswith(zone.name)),
@@ -157,16 +157,16 @@ class PDNSServer(PDNSEndpointBase):
         }
 
         if update:
-            LOG.info(f"Updating zone: {name}")
+            logger.info(f"Updating zone: {name}")
             zone = self.get_zone(name)
             zone_data = self._patch(f"{self.url}/zones/{zone.id}", data=zone_data)
         else:
-            LOG.info(f"Creating zone: {name}")
+            logger.info(f"Creating zone: {name}")
             zone_data = self._post(f"{self.url}/zones", data=zone_data)
 
         if zone_data:
             self._zones = None
-            LOG.info(f"Zone {name} successfully processed")
+            logger.info(f"Zone {name} successfully processed")
             return PDNSZone(self.api_client, self, zone_data)
 
     def delete_zone(self, name):
@@ -176,7 +176,7 @@ class PDNSServer(PDNSEndpointBase):
         :return: PDNSApiClient response
         """
         self._zones = None
-        LOG.info(f"Deleting zone: {name}")
+        logger.info(f"Deleting zone: {name}")
         return self._delete(f"{self.url}/zones/{name}")
 
     def restore_zone(self, json_file):
@@ -190,12 +190,12 @@ class PDNSServer(PDNSEndpointBase):
         self._zones = None
         zone_name = zone_data['name']
         zone_data['nameservers'] = []
-        LOG.info(f"Restoring zone: {zone_name}")
+        logger.info(f"Restoring zone: {zone_name}")
         zone_data = self._post(f"{self.url}/zones", data=zone_data)
         if zone_data:
-            LOG.info(f"Zone successfully restored: {zone_data['name']}")
+            logger.info(f"Zone successfully restored: {zone_data['name']}")
             return PDNSZone(self.api_client, self, zone_data)
-        LOG.info(f"{zone_name} zone restoration failed")
+        logger.info(f"{zone_name} zone restoration failed")
 
 
 class PDNSZone(PDNSEndpointBase):
@@ -217,7 +217,7 @@ class PDNSZone(PDNSEndpointBase):
     def details(self):
         """Get zone's detailed data"""
         if not self._details:
-            LOG.info(f"Getting {self.name} zone details from API")
+            logger.info(f"Getting {self.name} zone details from API")
             self._details = self._get(self.url)
         return self._details
 
@@ -232,7 +232,7 @@ class PDNSZone(PDNSEndpointBase):
         :param str name: Record name
         :return: Records data as list
         """
-        LOG.info(f"Getting zone record: {name}")
+        logger.info(f"Getting zone record: {name}")
         return [record for record in self.details['rrsets'] if name == record['name']]
 
     def create_records(self, rrsets: list[RRSet]):
@@ -241,7 +241,7 @@ class PDNSZone(PDNSEndpointBase):
         :param list rrsets: Resource record sets
         :return: Query response
         """
-        LOG.info(f"Creating {len(rrsets)} record(s) in {self.name}")
+        logger.info(f"Creating {len(rrsets)} record(s) in {self.name}")
 
         serialized_data = []
         for rrset in rrsets:
@@ -257,7 +257,7 @@ class PDNSZone(PDNSEndpointBase):
         :param list rrsets: Resource record sets
         :return: Query response
         """
-        LOG.info(f"Deleting {len(rrsets)} records from {self.name}")
+        logger.info(f"Deleting {len(rrsets)} records from {self.name}")
 
         serialized_data = []
         for rrset in rrsets:
@@ -274,18 +274,18 @@ class PDNSZone(PDNSEndpointBase):
         :param str filename: Json file name
         :param bool pretty_json: Enable pretty json display
         """
-        LOG.info(f"Backing up zone: {self.name}")
+        logger.info(f"Backing up zone: {self.name}")
         filename = filename or f"{self.name.rstrip('.')}.json"
         json_file = os.path.join(directory, filename)
-        LOG.info(f"Backup file is {json_file}")
+        logger.info(f"Backup file is {json_file}")
         with open(json_file, "w") as backup_fp:
             json.dump(self.details, backup_fp,
                       ensure_ascii=True,
                       indent=2 if pretty_json else None,
                       sort_keys=True if pretty_json else False)
-        LOG.info(f"Zone {self.name} successfully saved")
+        logger.info(f"Zone {self.name} successfully saved")
 
     def notify(self):
         """Trigger notification for zone updates"""
-        LOG.info(f"Notifying of zone: {self.name}")
+        logger.info(f"Notifying of zone: {self.name}")
         return self._put(f"{self.url}/notify")

@@ -7,19 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>powerdns.interface &#8212; python-powerdns 2.0.0
  documentation</title><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/custom.css" />
-    
+
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    
+
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /><link rel="shortcut icon" type="image/png" href="../../_static/py.svg" />
             <script type="text/javascript" src="../../_static/copybutton.js"></script>
-            <script type="text/javascript" src="../../_static/menu.js"></script> 
+            <script type="text/javascript" src="../../_static/menu.js"></script>
   </head>
 <body>
 <div class="mobile-nav">
@@ -58,7 +58,7 @@
         </nav>
     </div>
 </div>
-  
+
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -75,16 +75,16 @@
             <div class="version_switcher_placeholder"></div>
           </li>
           <li>
-              
+
               <a href="../../index.html">python-powerdns 2.0.0
  documentation</a> &#187;
-              
+
           </li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../powerdns.html" accesskey="U">powerdns</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">powerdns.interface</a></li>
                 <li class="right">
-                    
+
 
     <div class="inline-search" role="search">
         <form class="inline-search" action="../../search.html" method="get">
@@ -96,15 +96,15 @@
     </div>
                      |
                 </li>
-            
+
       </ul>
-    </div>    
+    </div>
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
           <div class="body" role="main">
-            
+
   <h1>Source code for powerdns.interface</h1><div class="highlight"><pre>
 <span></span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="c1">#</span>
@@ -137,7 +137,7 @@
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="kn">import</span> <span class="n">PDNSCanonicalError</span>
 
 
-<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="c1"># pylint: disable=useless-object-inheritance</span>
@@ -184,13 +184,13 @@
 
 <span class="sd">        .. seealso:: https://doc.powerdns.com/md/httpapi/api_spec/#servers</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;listing available PowerDNS servers&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;listing available PowerDNS servers&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_servers</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting available servers from API&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting available servers from API&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_servers</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDNSServer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_client</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
                              <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="s1">&#39;/servers&#39;</span><span class="p">)]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> server(s) listed&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_servers</span><span class="p">))</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;listed servers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_servers</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> server(s) listed&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_servers</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;listed servers: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_servers</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_servers</span></div>
 
 
@@ -239,7 +239,7 @@
 
 <span class="sd">        .. seealso:: https://doc.powerdns.com/md/httpapi/api_spec/#url-apiv1serversserver95idconfig</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting server configuration&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting server configuration&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/config&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
 
     <span class="nd">@property</span>
@@ -252,13 +252,13 @@
 
 <span class="sd">        .. seealso:: https://doc.powerdns.com/md/httpapi/api_spec/#zone95collection</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;listing available zones&quot;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;listing available zones&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting available zones from API&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting available zones from API&quot;</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span> <span class="o">=</span> <span class="p">[</span><span class="n">PDNSZone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_client</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
                            <span class="k">for</span> <span class="n">data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/zones&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> zone(s) listed&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zones</span><span class="p">))</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;listed zones: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> zone(s) listed&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_zones</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;listed zones: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span>
 
 <div class="viewcode-block" id="PDNSServer.search"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSServer.search">[docs]</a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">search_term</span><span class="p">,</span> <span class="n">max_result</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
@@ -301,14 +301,14 @@
 <span class="sd">              &quot;zone_id&quot;: &quot;&lt;zoneid&gt;&quot;</span>
 <span class="sd">            }</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;api search terms: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">search_term</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;api search terms: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">search_term</span><span class="p">)</span>
         <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">/search-data?q=</span><span class="si">%s</span><span class="s1">&amp;max=</span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
             <span class="n">search_term</span><span class="p">,</span>
             <span class="n">max_result</span>
         <span class="p">))</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> search result(s)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;search results: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> search result(s)&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;search results: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">results</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span></div>
 
     <span class="c1"># pylint: disable=inconsistent-return-statements</span>
@@ -320,12 +320,12 @@
 
 <span class="sd">        .. seealso:: https://doc.powerdns.com/md/httpapi/api_spec/#zone95collection</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">zone</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">zones</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">zone</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;found zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;found zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone</span><span class="p">)</span>
                 <span class="k">return</span> <span class="n">zone</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone not found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone not found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PDNSServer.suggest_zone"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSServer.suggest_zone">[docs]</a>    <span class="k">def</span> <span class="nf">suggest_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r_name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Suggest best matching zone from existing zone</span>
@@ -341,7 +341,7 @@
 <span class="sd">        :param str r_name: Record canonical name</span>
 <span class="sd">        :return: Zone as :class:`PDNSZone` object or :obj:`None`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;suggesting zone for: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r_name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;suggesting zone for: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r_name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">r_name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PDNSCanonicalError</span><span class="p">(</span><span class="n">r_name</span><span class="p">)</span>
         <span class="n">best_match</span> <span class="o">=</span> <span class="kc">None</span>
@@ -351,7 +351,7 @@
                     <span class="n">best_match</span> <span class="o">=</span> <span class="n">zone</span>
                 <span class="k">if</span> <span class="n">best_match</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">zone</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">best_match</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
                     <span class="n">best_match</span> <span class="o">=</span> <span class="n">zone</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone best match: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">best_match</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone best match: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">best_match</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">best_match</span></div>
 
     <span class="c1"># pylint: disable=inconsistent-return-statements</span>
@@ -385,7 +385,7 @@
             <span class="n">zone_data</span><span class="p">[</span><span class="s1">&#39;rrsets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rrsets</span>
 
         <span class="k">if</span> <span class="n">update</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;update of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;update of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="n">get_zone</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_zone</span><span class="p">(</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">details</span>
             <span class="n">zone_id</span> <span class="o">=</span> <span class="n">get_zone</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
             <span class="n">zone_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patch</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{}</span><span class="s2">/zones/</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span>
@@ -393,13 +393,13 @@
                                     <span class="n">data</span><span class="o">=</span><span class="n">zone_data</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;creation of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;creation of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="n">zone_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/zones&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">zone_data</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">zone_data</span><span class="p">:</span>
             <span class="c1"># reset server object cache</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span> <span class="o">=</span> <span class="kc">None</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone </span><span class="si">%s</span><span class="s2"> successfully processed&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone </span><span class="si">%s</span><span class="s2"> successfully processed&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">PDNSZone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_client</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">zone_data</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PDNSServer.delete_zone"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSServer.delete_zone">[docs]</a>    <span class="k">def</span> <span class="nf">delete_zone</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -410,7 +410,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># reset server object cache</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deletion of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deletion of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/zones/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span></div>
 
     <span class="c1"># pylint: disable=inconsistent-return-statements</span>
@@ -425,12 +425,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_zones</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">zone_name</span> <span class="o">=</span> <span class="n">zone_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
         <span class="n">zone_data</span><span class="p">[</span><span class="s1">&#39;nameservers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;restoration of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;restoration of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">)</span>
         <span class="n">zone_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_post</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">/zones&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">zone_data</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">zone_data</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone successfully restored: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone successfully restored: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">zone_data</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
             <span class="k">return</span> <span class="n">PDNSZone</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">api_client</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">zone_data</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> zone restoration failed&quot;</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">)</span></div></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> zone restoration failed&quot;</span><span class="p">,</span> <span class="n">zone_name</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="PDNSZone"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSZone">[docs]</a><span class="k">class</span> <span class="nc">PDNSZone</span><span class="p">(</span><span class="n">PDNSEndpointBase</span><span class="p">):</span>
@@ -461,16 +461,16 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">details</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get zone&#39;s detailed data&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone details&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone details&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_details</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone details from api&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone details from api&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_details</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_details</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">records</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Get zone&#39;s records&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone records&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting </span><span class="si">%s</span><span class="s2"> zone records&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;rrsets&#39;</span><span class="p">]</span>
 
 <div class="viewcode-block" id="PDNSZone.get_record"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSZone.get_record">[docs]</a>    <span class="k">def</span> <span class="nf">get_record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -480,14 +480,14 @@
 <span class="sd">        :return: Records data as :func:`list`</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">records</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting zone record: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;getting zone record: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">details</span><span class="p">[</span><span class="s1">&#39;rrsets&#39;</span><span class="p">]:</span>
             <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;record found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;record found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
                 <span class="n">records</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">records</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;record not found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;record not found: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">records</span></div>
 
@@ -497,8 +497,8 @@
 <span class="sd">        :param list rrsets: Resource record sets</span>
 <span class="sd">        :return: Query response</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;creating </span><span class="si">%d</span><span class="s2"> record(s) to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rrsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;records: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rrsets</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;creating </span><span class="si">%d</span><span class="s2"> record(s) to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rrsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;records: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rrsets</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">rrset</span> <span class="ow">in</span> <span class="n">rrsets</span><span class="p">:</span>
             <span class="n">rrset</span><span class="o">.</span><span class="n">ensure_canonical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">rrset</span><span class="p">[</span><span class="s1">&#39;changetype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;REPLACE&#39;</span>
@@ -513,8 +513,8 @@
 <span class="sd">        :param list rrsets: Resource record sets</span>
 <span class="sd">        :return: Query response</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deletion of </span><span class="si">%d</span><span class="s2"> records from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rrsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;records: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rrsets</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deletion of </span><span class="si">%d</span><span class="s2"> records from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">rrsets</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;records: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">rrsets</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">rrset</span> <span class="ow">in</span> <span class="n">rrsets</span><span class="p">:</span>
             <span class="n">rrset</span><span class="o">.</span><span class="n">ensure_canonical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
             <span class="n">rrset</span><span class="p">[</span><span class="s1">&#39;changetype&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;DELETE&#39;</span>
@@ -533,11 +533,11 @@
 <span class="sd">        If filename is not provided, destination file is generated with zone</span>
 <span class="sd">        name (stripping the last dot) and extension `.json`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;backup of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;backup of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">filename</span><span class="p">:</span>
             <span class="n">filename</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.json&quot;</span>
         <span class="n">json_file</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;backup file is </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">json_file</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;backup file is </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">json_file</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">json_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">backup_fp</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">pretty_json</span><span class="p">:</span>
@@ -548,11 +548,11 @@
                           <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">details</span><span class="p">,</span> <span class="n">backup_fp</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone </span><span class="si">%s</span><span class="s2"> successfully saved&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;zone </span><span class="si">%s</span><span class="s2"> successfully saved&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="PDNSZone.notify"><a class="viewcode-back" href="../../interface.html#powerdns.interface.PDNSZone.notify">[docs]</a>    <span class="k">def</span> <span class="nf">notify</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Trigger notification for zone updates&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;notify of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;notify of zone: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_put</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">url</span> <span class="o">+</span> <span class="s1">&#39;/notify&#39;</span><span class="p">)</span></div></div>
 
 
@@ -575,7 +575,7 @@
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">rtype</span><span class="p">,</span> <span class="n">records</span><span class="p">,</span> <span class="n">ttl</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span> <span class="n">changetype</span><span class="o">=</span><span class="s1">&#39;REPLACE&#39;</span><span class="p">,</span>
                  <span class="n">comments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Initialization&quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;new rrset object for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;new rrset object for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">(</span><span class="n">RRSet</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">raw_records</span> <span class="o">=</span> <span class="n">records</span>
         <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">name</span>
@@ -642,16 +642,16 @@
 <span class="sd">            This method update :class:`RRSet` data to ensure the use of</span>
 <span class="sd">            canonical names. It is actually not possible to revert values.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ensuring rrset </span><span class="si">%s</span><span class="s2"> is canonical&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;ensuring rrset </span><span class="si">%s</span><span class="s2"> is canonical&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">zone</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">PDNSCanonicalError</span><span class="p">(</span><span class="n">zone</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;transforming </span><span class="si">%s</span><span class="s2"> with </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">zone</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;transforming </span><span class="si">%s</span><span class="s2"> with </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">zone</span><span class="p">)</span>
             <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">zone</span>
         <span class="k">if</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CNAME&#39;</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">record</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;records&#39;</span><span class="p">]:</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">record</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">):</span>
-                    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;transforming </span><span class="si">%s</span><span class="s2"> with </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;transforming </span><span class="si">%s</span><span class="s2"> with </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
                               <span class="n">record</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">],</span> <span class="n">zone</span><span class="p">)</span>
                     <span class="n">record</span><span class="p">[</span><span class="s1">&#39;content&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="s2">&quot;.</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">zone</span></div></div>
 
@@ -704,7 +704,7 @@
         </div>
       </div>
       <div class="clearer"></div>
-    </div>  
+    </div>
     <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
@@ -721,16 +721,16 @@
             <div class="version_switcher_placeholder"></div>
           </li>
           <li>
-              
+
               <a href="../../index.html">python-powerdns 2.0.0
  documentation</a> &#187;
-              
+
           </li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../powerdns.html" >powerdns</a> &#187;</li>
         <li class="nav-item nav-item-this"><a href="">powerdns.interface</a></li>
                 <li class="right">
-                    
+
 
     <div class="inline-search" role="search">
         <form class="inline-search" action="../../search.html" method="get">
@@ -742,9 +742,9 @@
     </div>
                      |
                 </li>
-            
+
       </ul>
-    </div>  
+    </div>
     <div class="footer">
     &copy; <a href="../../copyright.html">Copyright</a> 2018, Denis &#39;jawa&#39; Pompilio.
     <br />
@@ -761,7 +761,7 @@
     <br />
 
     Last updated on None.
-    
+
     <br />
 
     Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 4.0.2.
