@@ -1,6 +1,6 @@
 [![PythonSupport][1]][1l] [![License][2]][2l] [![PyPI version][3]][3l]
 
-# python-powerdns -- PowerDNS web api python client and interface
+# python-powerdns -- A PowerDNS REST API python client and interface
 
 This is a slight rewrite of [python-powerdns](https://github.com/outini/python-powerdns) by Denis Pompilio.
 
