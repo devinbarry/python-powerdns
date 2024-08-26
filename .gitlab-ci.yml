@@ -74,9 +74,9 @@ build_and_publish:
 # Push a public copy of this repo up to GitHub
 sync_public_repo:
   stage: sync
-  image: alpine:latest
+  image: python:3.12-alpine
   before_script:
-    - apk add --no-cache git openssh-client
+    - apk add --no-cache git openssh-client bash
     - eval $(ssh-agent -s)
     - echo "$GITHUB_SSH_PUSH_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
@@ -86,33 +86,6 @@ sync_public_repo:
     - git config --global user.email "devinbarry@users.noreply.github.com"
     - git config --global user.name "Devin Barry"
   script:
-    - git clone --single-branch --branch master $CI_REPOSITORY_URL private_repo
-    - cd private_repo
-    - git remote add public $GITHUB_PYTHON_POWERDNS_REPO_URL
-    - git fetch public
-    - git checkout -b temp_branch master
-    - |
-      git filter-branch --prune-empty --tree-filter '
-        echo "DEBUG: Current directory contents:"
-        ls -la
-        echo "DEBUG: .gitattributes content:"
-        cat .gitattributes
-        if [ -e .gitattributes ]; then
-          while IFS= read -r line || [[ -n "$line" ]]; do
-            echo "DEBUG: Processing line: $line"
-            if [[ $line == *"export-ignore"* ]]; then
-              file=$(echo "$line" | cut -d" " -f1)
-              echo "DEBUG: Attempting to remove: $file"
-              rm -rf "$file"
-              echo "DEBUG: Remove result: $?"
-            fi
-          done < .gitattributes
-        else
-          echo "DEBUG: .gitattributes file not found"
-        fi
-        echo "DEBUG: Directory contents after processing:"
-        ls -la
-      ' --tag-name-filter cat -- temp_branch
-    - git push -f public temp_branch:master
+    - bash ./scripts/sync_public_repo.sh
   only:
     - master
