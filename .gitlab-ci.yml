@@ -91,7 +91,8 @@ sync_public_repo:
     - git remote add public $GITHUB_PYTHON_POWERDNS_REPO_URL
     - git fetch public
     - git checkout -b temp_branch master
-    - git filter-branch --prune-empty --tree-filter '
+    - |
+      git filter-branch --prune-empty --tree-filter '
         if [ -e .gitattributes ]; then
           while IFS= read -r line || [[ -n "$line" ]]; do
             if [[ $line == *"export-ignore"* ]]; then
