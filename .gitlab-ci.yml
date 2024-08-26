@@ -93,14 +93,25 @@ sync_public_repo:
     - git checkout -b temp_branch master
     - |
       git filter-branch --prune-empty --tree-filter '
+        echo "DEBUG: Current directory contents:"
+        ls -la
+        echo "DEBUG: .gitattributes content:"
+        cat .gitattributes
         if [ -e .gitattributes ]; then
           while IFS= read -r line || [[ -n "$line" ]]; do
+            echo "DEBUG: Processing line: $line"
             if [[ $line == *"export-ignore"* ]]; then
               file=$(echo "$line" | cut -d" " -f1)
+              echo "DEBUG: Attempting to remove: $file"
               rm -rf "$file"
+              echo "DEBUG: Remove result: $?"
             fi
           done < .gitattributes
+        else
+          echo "DEBUG: .gitattributes file not found"
         fi
+        echo "DEBUG: Directory contents after processing:"
+        ls -la
       ' --tag-name-filter cat -- temp_branch
     - git push -f public temp_branch:master
   only:
