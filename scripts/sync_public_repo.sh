@@ -29,4 +29,8 @@ fi
 # Run git filter-branch with the dynamically constructed path
 git filter-branch --prune-empty --tree-filter "python3 ${SCRIPT_PATH}" --tag-name-filter cat -- temp_branch
 
+git for-each-ref --format="%(refname)" refs/original/ | xargs -n 1 git update-ref -d
+
+git gc --aggressive --prune=now
+
 git push -f public temp_branch:master
