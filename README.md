@@ -1,4 +1,4 @@
-[![PythonSupport][1]][1l] [![License][2]][2l] [![PyPI version][3]][3l]
+[![PythonSupport][1]][1l] [![License][2]][2l]
 
 # python-powerdns -- A PowerDNS REST API python client and interface
 
@@ -22,7 +22,7 @@ for the PowerDNS web API.
 ## Installation
 
 ```bash
-pip install python-powerdns
+pip install https://github.com/devinbarry/python-powerdns/archive/master.zip
 ```
 
 ## Helpers
@@ -174,12 +174,10 @@ docker run --rm -it pdns
 MIT LICENSE *(see LICENSE file)*
 
 
-[1]: https://img.shields.io/badge/python-2.7,3.4+-blue.svg
+[1]: https://img.shields.io/badge/python-3.10+-blue.svg
 [1l]: https://github.com/outini/python-powerdns
 [2]: https://img.shields.io/badge/license-MIT-blue.svg
 [2l]: https://github.com/outini/python-powerdns
-[3]: https://badge.fury.io/py/python-powerdns.svg
-[3l]: https://pypi.org/project/python-powerdns
 [Dockerfile]: files/Dockerfile
 [tests]: tests
 [unittests]: https://docs.python.org/3/library/unittest.html
